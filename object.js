@@ -48,16 +48,14 @@ export class FlashLight extends PIXI.Graphics {
 // BACKGROUND
 export class Background extends PIXI.Sprite {
     constructor(backgroundUrl) {
-        super(PIXI.Texture.fromImage(backgroundUrl));
-        // super(backgroundUrl);
+        // super(PIXI.Texture.fromImage(backgroundUrl));
+        super(backgroundUrl);
 
         this.updateSize = (currentCanvasSize) => {
             console.log("scaled");
         };
     }
 }
-
-
 
 export const createBackgroundDark = (mainContainer) => {
     const backgroundDark = PIXI.Sprite.from("./images/illustration_page_foxes_2_dark.webp");

@@ -3,3 +3,5 @@ index.html
 index.js
 .prettierrc
 pixi_old.js
+.eslintrc
+.DS_Store

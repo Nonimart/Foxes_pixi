@@ -2,7 +2,8 @@ import { createBackgroundDark, createBackgroundLight } from "./object.js";
 import { GameElement, FlashLight, Background } from "./object.js";
 
 // import { Texture } from "./node_modules/pixi.js/dist/pixi.min.js";
-// console.log();
+// console.log(PIXI.Texture());
+
 // #############################################
 // INIT
 // #############################################
@@ -30,14 +31,14 @@ const texturesPromise = PIXI.Assets.load(["flowerTop"]);
 
 texturesPromise.then((textures) => {
     console.log("loaded");
-    const flower = PIXI.Sprite.from(textures.flowerTop);
-    flower.anchor.set(0.5);
-    flower.x = app.screen.width * 0.25;
-    flower.y = app.screen.height / 2;
-    app.stage.addChild(flower);
+    // const flower = PIXI.Sprite.from(textures.flowerTop);
+    // flower.anchor.set(0.5);
+    // flower.x = app.screen.width * 0.25;
+    // flower.y = app.screen.height / 2;
+    // app.stage.addChild(flower);
 });
 // const loader =
-console.log(PIXI.loader);
+// console.log(PIXI.loader);
 // app.loader.add("sprite", "./images/sample.png").load(() => {
 //     console.log("loaded");
 //     // setup();
@@ -67,8 +68,8 @@ let backgroundDark = createBackgroundDark(mainContainer);
 let backgroundLight = createBackgroundLight(mainContainer);
 backgroundLight.mask = flashlight;
 
-let background = new Background("./images/illustration_page_foxes_2_dark.webp");
-console.log(background);
+// let background = new Background("./images/illustration_page_foxes_2_dark.webp");
+// console.log(background);
 // console.log(Texture);
 // mainContainer.addChild(background);
 
