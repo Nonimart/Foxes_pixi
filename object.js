@@ -1,41 +1,64 @@
-export class GameElement {
-    constructor(x, y, name) {
-        this.container = new PIXI.Container();
-        this.lightTexture = PIXI.Sprite.from("./images/journal_light.png");
-        this.darkTexture = PIXI.Sprite.from("./images/journal_dark.png");
-        this.container.addChild(this.lightTexture);
-        this.container.addChild(this.darkTexture);
-        this.x = x;
-        this.y = y;
+// import { TilingSprite } from "pixi.js";
+
+export class GameElement extends PIXI.Container {
+    constructor(name, darkTextureUrl, lightTextureUrl, light) {
+        super();
         this.name = name;
+
+        this.darkTexture = PIXI.Sprite.from(darkTextureUrl);
+        this.darkTexture.anchor.set(0.5);
+
+        this.lightTexture = PIXI.Sprite.from(lightTextureUrl);
+        this.lightTexture.anchor.set(0.5);
+        this.lightTexture.mask = light;
+
+        this.addChild(this.darkTexture);
+        this.addChild(this.lightTexture);
+        this.buttonMode = true;
+        this.interactive = true;
+
         this.handleClick = () => {
-            return this.container;
+            console.log("clicked from class");
+        };
+        this.updatePositionSize = (app, scaleFactor) => {
+            this.scale.set(scaleFactor);
+            this.x = app.screen.width / 2.7;
+            this.y = app.screen.height / 1.22;
         };
     }
 }
 
-// CONTAINER
-export const createSquare = (mainContainer, app) => {
-    let square = new PIXI.Graphics();
-    square.beginFill(0xde3249);
-    square.drawRect(0, 50, app.screen.width - 10, 50);
-    square.endFill();
-    app.stage.addChild(square);
-    // var rect = new PIXI.Rectangle(100, 150, 50, 50);
-    // stage.addChild(rect);
-    return square;
-};
+export class FlashLight extends PIXI.Graphics {
+    constructor() {
+        super();
+        this.beginFill(0xde3249);
+        this.drawCircle(0, 0, 50);
+        this.endFill();
 
-// FLASHLIGH
-export const createLight = (mainContainer, app) => {
-    let light = new PIXI.Graphics();
-    light.beginFill(0xde3249);
-    light.drawCircle(0, 0, 50);
-    light.endFill();
-    app.stage.addChild(light);
-    return light;
-};
+        this.updatePosition = (e) => {
+            let pos = e.data.global;
+            gsap.to(this, 1.2, { pixi: { x: pos.x, y: pos.y } });
+        };
+        this.updateSize = (currentCanvasHeight) => {
+            this.width = this.height = currentCanvasHeight / 4;
+        };
+    }
+}
+
 // BACKGROUND
+export class Background extends PIXI.Sprite {
+    constructor(backgroundUrl) {
+        super(PIXI.Texture.fromImage(backgroundUrl));
+        // super(backgroundUrl);
+
+        this.updateSize = (currentCanvasSize) => {
+            console.log("scaled");
+        };
+    }
+}
+
+
+
 export const createBackgroundDark = (mainContainer) => {
     const backgroundDark = PIXI.Sprite.from("./images/illustration_page_foxes_2_dark.webp");
     backgroundDark.x = 0;
@@ -50,25 +73,4 @@ export const createBackgroundLight = (mainContainer) => {
     backgroundLight.y = 0;
     mainContainer.addChild(backgroundLight);
     return backgroundLight;
-};
-
-// // JOURNAL
-export const createJournal = (mainContainer, light) => {
-    const journalLight = PIXI.Sprite.from("./images/journal_light.png");
-    journalLight.mask = light;
-    const journalDark = PIXI.Sprite.from("./images/journal_dark.png");
-
-    const journal = new PIXI.Container();
-    journal.x = 700;
-    journal.y = 200;
-    journal.width = 10;
-    journal.height = 100;
-    journal.addChild(journalDark);
-    journal.addChild(journalLight);
-
-    // journalLight.interactive = true;
-    // journalLight.buttonMode = true;
-
-    mainContainer.addChild(journal);
-    return journal;
 };
